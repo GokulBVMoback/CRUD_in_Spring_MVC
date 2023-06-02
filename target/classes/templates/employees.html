@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>Employee Management</title>
+</head>
+<script type="text/javascript">
+    function confirmdelete(id) {
+    			console.log("js working id have value "+id);
+
+		
+		if (confirm("Do you want to Delete?") == true) {
+		window.location.href = "/employee/delete/"+id;
+                    alert("Deleted successfully");
+        }
+        else {
+            return false;
+        }
+        
+    }
+</script>
+<body>
+    <div th:insert="header :: header"></div>
+<div class="container">
+<div class="row">
+	<h1 class="text-center">Employee List</h1>
+</div>
+<div class="row">
+	<a th:href=@{/addemployee} class="btn btn-primary btn-sm mb-3">Add Employee</a>
+</div>
+<table class="table table-hover">
+<thead class="thead-dark">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="employee:${employees}">
+      <th scope="row" th:text="${employee.Id}"></th>
+      <td th:text="${employee.Name}"></td>
+      <td th:text="${employee.Age}"></td>
+      <td>
+      <a th:href = "@{/employee/{id}(id=${employee.Id})}"
+			class = "btn btn-primary">Details</a>
+		<a th:href = "@{/employee/update/{id}(id=${employee.Id})}"
+			class = "btn btn-primary">Update</a>
+		<input type="submit" value="Delete" class="btn btn-danger" id="Activate" th:id="${employee.Id}"  th:onclick="return confirmdelete(this.getAttribute('id'))"  />
+		</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div th:insert="footer :: footer"></div>
+
+</body>
+</html>
